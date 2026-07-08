@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+KR:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    html, body { margin: 0; padding: 0; background: #fbfaf8; }
+    * { box-sizing: border-box; }
+    ::selection { background: #1a1a1a; color: #fff; }
+    @keyframes gridIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes bloomGrow { 0% { transform: scale(0.2); opacity: 0; } 60% { opacity: 0.5; } 100% { transform: scale(1); opacity: 0.42; } }
+    @keyframes bloomFloat { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-10px) scale(1.03); } }
+    @keyframes textRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 640px) {
+      #stage-wrap { padding: 0 !important; }
+      #art-frame { width: 100vw !important; }
+    }
+    ::-webkit-scrollbar { width: 7px; height: 7px; }
+    ::-webkit-scrollbar-thumb { background: #d8d3ca; border-radius: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+  </style>
+</helmet>
+
+<div style="position:relative; width:100%; height:100vh; background:#fbfaf8; font-family:'Noto Sans KR',system-ui,sans-serif; overflow:hidden; display:flex; flex-direction:column; color:#1a1a1a;">
+
+  <!-- Masthead -->
+  <div style="flex-shrink:0; padding:28px 40px 18px; z-index:5;">
+    <div style="display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:16px;">
+      <div style="display:flex; align-items:baseline; gap:14px;">
+        <span style="font-family:'Playfair Display',serif; font-size:26px; font-weight:600; letter-spacing:0.01em;">YEHON</span>
+        <span style="font-family:'Noto Serif KR',serif; font-size:13px; font-weight:400; color:#8a8478; letter-spacing:0.04em;">예혼전 · 드로잉전 — 30주년 기념 도록</span>
+      </div>
+      <button onClick="{{ toggleGrid }}" style="display:flex; align-items:center; gap:7px; background:none; border:1px solid #1a1a1a; border-radius:0; padding:9px 18px; cursor:pointer; font-family:'Noto Sans KR',sans-serif; font-size:11px; letter-spacing:0.12em; color:#1a1a1a;" style-hover="background:#1a1a1a; color:#fbfaf8;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="7" stroke="currentColor" stroke-width="2"/><rect x="3" y="14" width="7" height="7" stroke="currentColor" stroke-width="2"/><rect x="14" y="14" width="7" height="7" stroke="currentColor" stroke-width="2"/></svg>
+        INDEX
+      </button>
+    </div>
+    <div style="height:1px; background:#1a1a1a;"></div>
+  </div>
+
+  <!-- Main stage -->
+  <div id="stage-wrap" style="position:relative; flex:1; display:flex; align-items:center; justify-content:center; min-height:0; padding:10px 60px 20px;">
+
+    <div id="art-frame" style="position:relative; width:min(80vw,620px); height:100%; overflow:hidden;">
+
+      <sc-if value="{{ showPrevLayer }}">
+        <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; box-shadow:0 24px 60px rgba(20,15,10,0.14); border:1px solid #ece7dc; transform:translateX({{ outgoingX }}); transition:transform {{ transDur }}ms cubic-bezier(0.65,0,0.35,1); display:flex; flex-direction:column;">
+          <sc-if value="{{ outgoingIsCover }}">
+            <div style="position:relative; width:100%; height:100%; background:#fbfaf8; overflow:hidden; display:flex; align-items:center; justify-content:center; padding:8%;">
+              <div style="position:absolute; top:-8%; left:-10%; width:46%; aspect-ratio:1; border-radius:50%; background:radial-gradient(circle at 35% 35%, #e8a798, transparent 70%); filter:blur(34px); mix-blend-mode:multiply; opacity:0; animation:bloomGrow 1.8s cubic-bezier(.2,.8,.2,1) 0.1s forwards, bloomFloat 8s ease-in-out 1.9s infinite;"></div>
+              <div style="position:absolute; bottom:-12%; right:-8%; width:52%; aspect-ratio:1; border-radius:50%; background:radial-gradient(circle at 60% 40%, #b9cfc4, transparent 70%); filter:blur(38px); mix-blend-mode:multiply; opacity:0; animation:bloomGrow 2s cubic-bezier(.2,.8,.2,1) 0.5s forwards, bloomFloat 9s ease-in-out 2.5s infinite;"></div>
+              <div style="position:absolute; top:20%; right:6%; width:30%; aspect-ratio:1; border-radius:50%; background:radial-gradient(circle at 40% 40%, #dcc38d, transparent 70%); filter:blur(28px); mix-blend-mode:multiply; opacity:0; animation:bloomGrow 1.7s cubic-bezier(.2,.8,.2,1) 0.9s forwards, bloomFloat 7s ease-in-out 2.6s infinite;"></div>
+              <div style="position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; text-align:center; gap:18px; max-width:88%;">
+                <span style="font-family:'Playfair Display',serif; font-size:12px; letter-spacing:0.3em; color:#a4693a; opacity:0; animation:textRise 0.7s ease 0.4s forwards;">THE 30TH · 1996—2026</span>
+                <div style="font-family:'Noto Serif KR',serif; font-size:clamp(20px,3.2vw,30px); font-weight:600; line-height:1.6; color:#1a1a1a; opacity:0; animation:textRise 0.7s ease 0.7s forwards;">청춘, 그 젊은 날의 열정으로<br/>첫 작품이 안겨준 기쁨과 고통의 순간들을<br/>이곳에 영원히 간직하다.</div>
+                <span style="font-family:'Noto Sans KR',sans-serif; font-size:clamp(11px,1.4vw,13px); letter-spacing:0.05em; color:#8a8478; opacity:0; animation:textRise 0.7s ease 1.05s forwards;">— 충남예술고등학교 30기, 청춘을 그리다</span>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ outgoingIsImage }}">
+            <div style="flex:1; min-height:0; padding:9% 10% 4%; display:flex; align-items:center; justify-content:center;">
+              <img src="{{ outgoingSrc }}" alt="" style="max-width:100%; max-height:100%; object-fit:contain; display:block;" />
+            </div>
+            <div style="flex-shrink:0; padding:0 10% 6%; display:flex; align-items:center; justify-content:center; gap:10px;">
+              <div style="width:22px; height:1px; background:#c9bfa9;"></div>
+              <span style="font-family:'Playfair Display',serif; font-style:italic; font-size:11px; letter-spacing:0.08em; color:#8a8478;">plate {{ outgoingPlate }}</span>
+              <div style="width:22px; height:1px; background:#c9bfa9;"></div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:#fff; box-shadow:0 24px 60px rgba(20,15,10,0.14); border:1px solid #ece7dc; transform:translateX({{ currentX }}); transition:transform {{ transDur }}ms cubic-bezier(0.65,0,0.35,1); display:flex; flex-direction:column;">
+        <sc-if value="{{ currentIsCover }}">
+          <div style="width:100%; height:100%; background:#fbfaf8; display:flex; flex-direction:column; justify-content:space-between; padding:9% 8%;">
+            <div>
+              <div style="font-family:'Playfair Display',serif; font-size:min(15vw,120px); font-weight:600; line-height:0.78; color:transparent; -webkit-text-stroke:1.5px #1a1a1a;">30</div>
+              <div style="margin-top:6%; font-family:'Noto Sans KR',sans-serif; font-size:clamp(11px,1.6vw,14px); letter-spacing:0.08em; line-height:1.75; color:#1a1a1a;">2026 THE 30TH<br/>FINE ART EXHIBITION OF<br/>CHUNGNAM ARTS<br/>HIGH SCHOOL</div>
+            </div>
+            <div style="display:flex; align-items:flex-end; justify-content:space-between;">
+              <div style="font-family:'Noto Serif KR',serif; font-size:clamp(13px,1.8vw,16px); letter-spacing:0.02em; line-height:1.6; color:#1a1a1a;">충남예술고등학교<br/>예혼전 · 드로잉전</div>
+              <div style="font-family:'Playfair Display',serif; font-style:italic; font-size:clamp(11px,1.4vw,14px); letter-spacing:0.2em; writing-mode:vertical-rl; color:#8a8478; max-height:100%; overflow:hidden;">DRAWING</div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ currentIsImage }}">
+          <div style="flex:1; min-height:0; padding:9% 10% 4%; display:flex; align-items:center; justify-content:center;">
+            <img src="{{ imgSrc }}" alt="page {{ pageDisplay }}" style="max-width:100%; max-height:100%; object-fit:contain; display:block;" />
+          </div>
+          <div style="flex-shrink:0; padding:0 10% 6%; display:flex; align-items:center; justify-content:center; gap:10px;">
+            <div style="width:22px; height:1px; background:#c9bfa9;"></div>
+            <span style="font-family:'Playfair Display',serif; font-style:italic; font-size:11px; letter-spacing:0.08em; color:#8a8478;">plate {{ pageDisplay }}</span>
+            <div style="width:22px; height:1px; background:#c9bfa9;"></div>
+          </div>
+        </sc-if>
+      </div>
+
+    </div>
+
+    <!-- click zones -->
+    <div onClick="{{ goPrev }}" style="position:absolute; left:0; top:0; width:30%; height:100%; cursor:{{ prevCursor }}; display:flex; align-items:center; justify-content:flex-start; padding-left:14px;">
+      <sc-if value="{{ hasPrev }}">
+        <div style="width:34px; height:34px; border:1px solid #1a1a1a; border-radius:50%; background:#fbfaf8; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.2s;" style-hover="opacity:1;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </sc-if>
+    </div>
+    <div onClick="{{ goNext }}" style="position:absolute; right:0; top:0; width:30%; height:100%; cursor:{{ nextCursor }}; display:flex; align-items:center; justify-content:flex-end; padding-right:14px;">
+      <sc-if value="{{ hasNext }}">
+        <div style="width:34px; height:34px; border:1px solid #1a1a1a; border-radius:50%; background:#fbfaf8; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.2s;" style-hover="opacity:1;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#1a1a1a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <!-- footer -->
+  <div style="flex-shrink:0; padding:14px 40px 26px; display:flex; align-items:center; justify-content:space-between;">
+    <span style="font-family:'Playfair Display',serif; font-style:italic; font-size:12px; color:#8a8478; letter-spacing:0.03em;">Chungnam Arts High School</span>
+    <span style="font-family:'Noto Sans KR',sans-serif; font-size:11px; letter-spacing:0.15em; color:#1a1a1a; font-variant-numeric:tabular-nums;">{{ pageDisplay }} / {{ total }}</span>
+  </div>
+  <div style="flex-shrink:0; height:1px; width:100%; background:#e4e0d8;">
+    <div style="height:100%; background:#1a1a1a; width:{{ progressPct }}%; transition:width 0.35s ease;"></div>
+  </div>
+
+  <!-- grid overlay -->
+  <sc-if value="{{ showGrid }}">
+    <div style="position:fixed; inset:0; background:#fbfaf8; z-index:20; display:flex; flex-direction:column; animation:gridIn 0.25s ease;">
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:26px 40px 18px; flex-shrink:0; border-bottom:1px solid #1a1a1a;">
+        <span style="font-family:'Playfair Display',serif; font-size:20px; letter-spacing:0.02em;">INDEX</span>
+        <button onClick="{{ toggleGrid }}" style="background:none; border:1px solid #1a1a1a; padding:9px 18px; font-family:'Noto Sans KR',sans-serif; font-size:11px; letter-spacing:0.12em; cursor:pointer;" style-hover="background:#1a1a1a; color:#fbfaf8;">CLOSE ✕</button>
+      </div>
+      <div style="flex:1; overflow-y:auto; padding:24px 40px 50px;">
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:22px 20px;">
+          <sc-for list="{{ pages }}" as="p" hint-placeholder-count="12">
+            <div onClick="{{ p.select }}" style="cursor:pointer; display:flex; flex-direction:column; gap:8px;">
+              <div style="border:1px solid {{ p.borderColor }}; overflow:hidden; aspect-ratio:0.773; background:#fff;">
+                <img src="{{ p.src }}" loading="lazy" style="width:100%; height:100%; object-fit:cover; display:block; filter:{{ p.filter }};" />
+              </div>
+              <span style="font-family:'Noto Sans KR',sans-serif; font-size:10.5px; color:#8a8478; text-align:center; letter-spacing:0.06em; font-variant-numeric:tabular-nums;">{{ p.n }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const EXCLUDED_PAGES = [2, 6, 20, 48]; // deleted: blank / unwanted pages
+const ORIGINAL_PAGES = [];
+for (let n = 1; n <= 56; n++) {
+  if (!EXCLUDED_PAGES.includes(n)) ORIGINAL_PAGES.push(n);
+}
+
+class Component extends DCLogic {
+  state = {
+    index: 0,
+    showGrid: false,
+    // slide animation state
+    outgoingIndex: null,
+    direction: 0, // 1 = next, -1 = prev
+    phase: 'idle', // idle | start | end
+  };
+
+  componentDidMount() {
+    this._onKey = (e) => {
+      if (this.state.showGrid) {
+        if (e.key === 'Escape') this.setState({ showGrid: false });
+        return;
+      }
+      if (e.key === 'ArrowRight') this.goNext();
+      if (e.key === 'ArrowLeft') this.goPrev();
+    };
+    window.addEventListener('keydown', this._onKey);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this._onKey);
+    if (this._settleTimer) clearTimeout(this._settleTimer);
+  }
+
+  pad(n) {
+    return String(n).padStart(2, '0');
+  }
+
+  slideTo(nextIndex, direction) {
+    if (this.state.phase !== 'idle') return; // ignore while animating
+    const outgoingIndex = this.state.index;
+    this.setState({ index: nextIndex, outgoingIndex, direction, phase: 'start' });
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.setState({ phase: 'end' });
+      });
+    });
+    if (this._settleTimer) clearTimeout(this._settleTimer);
+    this._settleTimer = setTimeout(() => {
+      this.setState({ phase: 'idle', outgoingIndex: null, direction: 0 });
+    }, 460);
+  }
+
+  goPrev = () => {
+    if (this.state.index > 0) this.slideTo(this.state.index - 1, -1);
+  };
+
+  goNext = () => {
+    if (this.state.index < ORIGINAL_PAGES.length - 1) this.slideTo(this.state.index + 1, 1);
+  };
+
+  goTo = (idx) => {
+    if (idx === this.state.index) {
+      this.setState({ showGrid: false });
+      return;
+    }
+    const direction = idx > this.state.index ? 1 : -1;
+    this.slideTo(idx, direction);
+    this.setState({ showGrid: false });
+  };
+
+  toggleGrid = () => {
+    this.setState((s) => ({ showGrid: !s.showGrid }));
+  };
+
+  renderVals() {
+    const total = ORIGINAL_PAGES.length;
+    const { index, showGrid, outgoingIndex, direction, phase } = this.state;
+    const hasPrev = index > 0;
+    const hasNext = index < total - 1;
+    const hasOutgoing = outgoingIndex !== null && outgoingIndex !== undefined;
+
+    const animating = phase !== 'idle';
+    // current image transform
+    let currentX = '0%';
+    let outgoingX = '0%';
+    if (animating) {
+      if (phase === 'start') {
+        currentX = direction === 1 ? '100%' : '-100%';
+        outgoingX = '0%';
+      } else {
+        currentX = '0%';
+        outgoingX = direction === 1 ? '-100%' : '100%';
+      }
+    }
+
+    const originalPage = ORIGINAL_PAGES[index];
+    const outgoingOriginalPage = hasOutgoing ? ORIGINAL_PAGES[outgoingIndex] : originalPage;
+
+    const pages = [];
+    ORIGINAL_PAGES.forEach((origN, i) => {
+      const active = i === index;
+      pages.push({
+        n: this.pad(i + 1),
+        src: `images/page-${this.pad(origN)}.jpg`,
+        borderColor: active ? '#1a1a1a' : '#e4e0d8',
+        filter: active ? 'none' : 'grayscale(0.15)',
+        select: () => this.goTo(i),
+      });
+    });
+
+    return {
+      total,
+      pageDisplay: this.pad(index + 1),
+      imgSrc: `images/page-${this.pad(originalPage)}.jpg`,
+      outgoingSrc: `images/page-${this.pad(outgoingOriginalPage)}.jpg`,
+      showPrevLayer: animating && hasOutgoing,
+      currentIsCover: index === 0,
+      currentIsImage: index !== 0,
+      outgoingIsCover: outgoingIndex === 0,
+      outgoingIsImage: hasOutgoing && outgoingIndex !== 0,
+      outgoingPlate: hasOutgoing ? this.pad(outgoingIndex + 1) : '',
+      currentX,
+      outgoingX,
+      transDur: phase === 'end' ? 420 : 0,
+      hasPrev,
+      hasNext,
+      prevCursor: hasPrev ? 'pointer' : 'default',
+      nextCursor: hasNext ? 'pointer' : 'default',
+      progressPct: ((index + 1) / total) * 100,
+      showGrid,
+      pages,
+      goPrev: this.goPrev,
+      goNext: this.goNext,
+      toggleGrid: this.toggleGrid,
+    };
+  }
+}
+
+</script>
+</body>
+</html>
